@@ -1,0 +1,29 @@
+#include <Wire.h>
+#define START_CONV_TEMP_PRESS 0x12
+#define Read_Pressure_ADC_MSB 0x00
+
+float calculPcomp(float a0, float b1, float c12, float b2, unsigned int Tadc, unsigned int  Padc ){
+  return a0 + (b1 + c12 * Tadc)*Padc + b2*Tadc;
+  }
+
+float conversionPression(float Pcomp){
+  return Pcomp*((115-50)/1023)+50;
+}
+
+void setup() {
+  Serial.begin(9600);  // Initialisation Terminal Série
+  Wire.begin();        // Initialisation I2C
+}
+
+void loop() {
+  Wire.write(START_CONV_TEMP_PRESS);
+  Wire.endTransmission();
+  Wire.requestFrom(Read_Pressure_ADC_MSB, 1);
+  
+  while(Wire.available())    // slave may send less than requested
+  {
+    Serial.print("Hello4\n");
+    char c = Wire.read();    // receive a byte as character
+    Serial.print(c);         // print the character
+  }
+}
