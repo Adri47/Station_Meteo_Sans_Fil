@@ -1,0 +1,2 @@
+# Station_Meteo_Sans_Fil
+L’objectif de ce projet SEE est de réaliser une station météo sans fil. Elle sera composée d’une partie émission distante munie de différents capteurs, et d’une partie réception locale reliée à un ordinateur. À l’issu des séances, vous devrez être en mesure de présenter un système capable d’afficher sur l’écran de l’ordinateur mis à disposition les valeurs instantanées des capteurs embarqués.
