@@ -1,35 +1,3 @@
-/*import processing.serial.*;
-
-Serial myPort;  // Create object from Serial class
-String val;     // Data received from the serial port
-float list[];
-
-
-
-void setup()
-{
-  // I know that the first port in the serial list on my mac
-  // is Serial.list()[0].
-  // On Windows machines, this generally opens COM1.
-  // Open whatever port is the one you're using.
-  print(Serial.list());
-  String portName = Serial.list()[3]; //change the 0 to a 1 or 2 etc. to match your port
-  myPort = new Serial(this, portName, 9600);
-}
-  void draw()
-{
-  if ( myPort.available() > 0)  val = myPort.readStringUntil('\n'); 
-  
-  if(val !=null){
-  float[] list = float(split(val, ':'));
-  println(list);}
-    
-}
-
-*/
-
-
-
 import org.gicentre.utils.stat.*; // Import the gicentre utils stat library for chart classes.
 import processing.serial.*;
 Serial myPort;  // Create object from Serial class
@@ -41,15 +9,12 @@ XYChart myXYchart3;                      // Declare an XYChart object.
 XYChart myXYchart4;                      // Declare an XYChart object.
 float list[];
 float[] xData ; // x data table.
-float[] yData ; // y data table.
 float[] buffer; // buffer data table.
 float[] buffer1; // buffer data table.
 float[] buffer2; // buffer data table.
 float[] buffer3; // buffer data table.
 float[] buffer4; // buffer data table.
 
-
-int cpt=0;
 
 void ResetArray(float tab[])
 {
@@ -65,12 +30,9 @@ void decalagebuffer(float buff[])
   }
 }
 
-
-
 void setup() {
   size(800, 800);
   xData = new float[720]; // x data table.
-  yData = new float[720]; // y data table.
   buffer = new float[720]; // y data table.
   buffer1 = new float[720]; // y data table.
   buffer2 = new float[720]; // y data table.
@@ -84,22 +46,21 @@ void setup() {
   // XY chart data initialisation.
   for(int i=0; i<xData.length; i++) {
     xData[i]=i;
-    yData[i]=sin(radians(xData[i]));// The sin() function takes angles in radians as an input.
   }
   ResetArray(buffer);
   myXYchart = new XYChart(this); // Create an XYChart object.
-  myXYchart.setData(xData, yData); // Assign data to the XYChart object.
+  myXYchart.setData(xData, buffer); // Assign data to the XYChart object.
   myXYchart1 = new XYChart(this); // Create an XYChart object.
-  myXYchart1.setData(xData, yData); // Assign data to the XYChart object.
+  myXYchart1.setData(xData, buffer1); // Assign data to the XYChart object.
 
   myXYchart2 = new XYChart(this); // Create an XYChart object.
-  myXYchart2.setData(xData, yData); // Assign data to the XYChart object
+  myXYchart2.setData(xData, buffer2); // Assign data to the XYChart object
 
   myXYchart3 = new XYChart(this); // Create an XYChart object.
-  myXYchart3.setData(xData, yData); // Assign data to the XYChart object
+  myXYchart3.setData(xData, buffer3); // Assign data to the XYChart object
 
   myXYchart4 = new XYChart(this); // Create an XYChart object.
-  myXYchart4.setData(xData, yData); // Assign data to the XYChart object
+  myXYchart4.setData(xData, buffer4); // Assign data to the XYChart object
 
   
   // Chart parameters settings
@@ -199,20 +160,6 @@ if(list.length==5){
   decalagebuffer(buffer3);
   decalagebuffer(buffer4);
   
-
-
-  if (cpt<yData.length-1){
-    cpt++;
-  }
-  else cpt = 0;
-    
-  // Draw a title over the top of the chart.
-  /*
-  fill(120);
-  textSize(20);
-  text("Example of a sinus plot using giCentre XYChart", 70,30);
-  textSize(11);
-  text("Help files are in the Processing/libraries/gicentreUtils/reference folder", 70,45);*/
   }
 }
 
