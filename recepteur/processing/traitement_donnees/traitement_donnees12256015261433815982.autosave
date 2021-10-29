@@ -1,0 +1,78 @@
+
+import org.gicentre.utils.stat.*; // Import the gicentre utils stat library for chart classes.
+XYChart myXYchart;                      // Declare an XYChart object.
+XYChart myXYchart2;                      // Declare an XYChart object.
+float[] xData = new float[360]; // x data table.
+float[] yData = new float[360]; // y data table.
+float[] buffer = new float[360]; // y data table.
+
+
+int cpt=0;
+
+void ResetArray(float tab[])
+{
+  for(int i=0; i<tab.length; i++) {
+    tab[i]=0; 
+  }
+}
+
+
+
+void setup() {
+  size(1800, 1000);
+  // XY chart data initialisation.
+  for(int i=0; i<xData.length; i++) {
+    xData[i]=i;
+    yData[i]=sin(radians(xData[i]));// The sin() function takes angles in radians as an input.
+  }
+  ResetArray(buffer);
+  myXYchart = new XYChart(this); // Create an XYChart object.
+  myXYchart.setData(xData, yData); // Assign data to the XYChart object.
+  myXYchart2 = new XYChart(this); // Create an XYChart object.
+  myXYchart2.setData(xData, yData); // Assign data to the XYChart object
+  
+  // Chart parameters settings
+  myXYchart.setPointSize(0);
+  myXYchart.setLineWidth(2);
+  myXYchart.setLineColour(color(200,80,80));
+  myXYchart.showXAxis(true);
+  myXYchart.setXAxisLabel("X axis");
+  myXYchart.showYAxis(true);
+  myXYchart.setYAxisLabel("Sin(X)");
+  myXYchart.setMaxY(1);
+  myXYchart.setMinY(-1);
+
+  myXYchart2.setPointSize(0);
+  myXYchart2.setLineWidth(2);
+  myXYchart2.setLineColour(color(200,80,80));
+  myXYchart2.showXAxis(true);
+  myXYchart2.setXAxisLabel("X axis");
+  myXYchart2.showYAxis(true);
+  myXYchart2.setYAxisLabel("Sin2(X)");
+  myXYchart2.setMaxY(1);
+  myXYchart2.setMinY(-1);
+  
+}
+
+void draw() {
+  background(255);
+  myXYchart.setData(xData, buffer);
+  myXYchart.draw(10,10,width-20, height-400);
+  myXYchart2.setData(xData, buffer);
+  myXYchart2.draw(10,400,width-20, height-400);
+  for (int i = buffer.length-1; i > 0; i--) {
+    buffer[i] = buffer[i-1];
+  }
+  buffer[0]=yData[cpt]; 
+  if (cpt<yData.length-1){
+    cpt++;
+  }
+  else cpt = 0;
+    
+  // Draw a title over the top of the chart.
+  fill(120);
+  textSize(20);
+  text("Example of a sinus plot using giCentre XYChart", 70,30);
+  textSize(11);
+  text("Help files are in the Processing/libraries/gicentreUtils/reference folder", 70,45);
+}

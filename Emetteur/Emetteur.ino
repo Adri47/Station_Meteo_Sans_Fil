@@ -41,23 +41,23 @@ void loop() {
   readCom(PIN_DHT, &humidity_DHT11, &temperature_DHT11);
   
   
-  //Serial.print("Valeur en LUX TEMT6000 : ");
+  //Serial.println("Valeur en LUX TEMT6000 : ");
   //Serial.print("<");
-  Serial.println(valueLum_Lux_TEMT6000);
-  //Serial.print(":");
- // Serial.print("Pression MPL11A2: ");
-  Serial.println(Pressure_MPL11A2);
-  //Serial.print(":");
-  //Serial.print("Temp MPL11A2:");
-  Serial.println(Temperature_MPL11A2, DEC);
-  //Serial.print(":");
+  Serial.print(valueLum_Lux_TEMT6000);
+  Serial.print(":");
+  //Serial.println("Pression MPL11A2: ");
+  Serial.print(Pressure_MPL11A2);
+  Serial.print(":");
+  //Serial.println("Temp MPL11A2:");
+  Serial.print(Temperature_MPL11A2, DEC);
+  Serial.print(":");
 
-  //Serial.print("Humidity DHT11 (%): ");
-  Serial.println(humidity_DHT11, DEC);
-  //Serial.print(":");
-  //Serial.print("Temperature DHT11 (C): ");
-  Serial.println(temperature_DHT11, DEC);
-  //Serial.print(">");
-  delay(100);
+  //Serial.println("Humidity DHT11 (%): ");
+  Serial.print(humidity_DHT11, DEC);
+  Serial.print(":");
+  //Serial.println("Temperature DHT11 (C): ");
+  Serial.print(temperature_DHT11, DEC);
+  Serial.print("\n");
+  delay(20);
   
 }

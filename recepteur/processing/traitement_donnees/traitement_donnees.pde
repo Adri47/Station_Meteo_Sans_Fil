@@ -1,7 +1,10 @@
-import processing.serial.*;
+/*import processing.serial.*;
 
 Serial myPort;  // Create object from Serial class
 String val;     // Data received from the serial port
+float list[];
+
+
 
 void setup()
 {
@@ -15,15 +18,16 @@ void setup()
 }
   void draw()
 {
-  if ( myPort.available() > 0) 
-  {  // If data is available,
-  val = myPort.readStringUntil('>');         // read it and store it in val
-  } 
-    if(val !=null)println(val); //print it out in the console
+  if ( myPort.available() > 0)  val = myPort.readStringUntil('\n'); 
+  
+  if(val !=null){
+  float[] list = float(split(val, ':'));
+  println(list);}
+    
 }
 
+*/
 
-/*
 
 
 import org.gicentre.utils.stat.*; // Import the gicentre utils stat library for chart classes.
@@ -35,7 +39,7 @@ XYChart myXYchart1;                      // Declare an XYChart object.
 XYChart myXYchart2;                      // Declare an XYChart object.
 XYChart myXYchart3;                      // Declare an XYChart object.
 XYChart myXYchart4;                      // Declare an XYChart object.
-
+float list[];
 float[] xData ; // x data table.
 float[] yData ; // y data table.
 float[] buffer; // buffer data table.
@@ -64,7 +68,7 @@ void decalagebuffer(float buff[])
 
 
 void setup() {
-  size(1600, 800);
+  size(800, 800);
   xData = new float[720]; // x data table.
   yData = new float[720]; // y data table.
   buffer = new float[720]; // y data table.
@@ -72,8 +76,9 @@ void setup() {
   buffer2 = new float[720]; // y data table.
   buffer3 = new float[720]; // y data table.
   buffer4 = new float[720]; // y data table.
-  print(Serial.list());
-  String portName = Serial.list()[1]; //change the 0 to a 1 or 2 etc. to match your port
+  
+  //print(Serial.list());
+  String portName = Serial.list()[3]; //change the 0 to a 1 or 2 etc. to match your port
   myPort = new Serial(this, portName, 9600);
 
   // XY chart data initialisation.
@@ -102,53 +107,53 @@ void setup() {
   myXYchart.setLineWidth(2);
   myXYchart.setLineColour(color(255,80,80)); //red
   myXYchart.showXAxis(true);
-  myXYchart.setXAxisLabel("X axis");
+  myXYchart.setXAxisLabel("Temps");
   myXYchart.showYAxis(true);
-  myXYchart.setYAxisLabel("Sin(X)");
-  myXYchart.setMaxY(1);
-  myXYchart.setMinY(-1);
+  myXYchart.setYAxisLabel("LUX");
+  myXYchart.setMaxY(500);
+  myXYchart.setMinY(0);
 
   myXYchart1.setPointSize(0);
   myXYchart1.setLineWidth(2);
   myXYchart1.setLineColour(color(255,100,250)); //pink
   myXYchart1.showXAxis(true);
-  myXYchart1.setXAxisLabel("X axis");
+  myXYchart1.setXAxisLabel("Temps");
   myXYchart1.showYAxis(true);
-  myXYchart1.setYAxisLabel("Sin(X)");
-  myXYchart1.setMaxY(1);
-  myXYchart1.setMinY(-1);
+  myXYchart1.setYAxisLabel("Pression kPa");
+  myXYchart1.setMaxY(105);
+  myXYchart1.setMinY(95);
 
   myXYchart2.setPointSize(0);
   myXYchart2.setLineWidth(2);
   myXYchart2.setLineColour(color(46, 204, 113 ));//green
   myXYchart2.showXAxis(true);
-  myXYchart2.setXAxisLabel("X axis");
+  myXYchart2.setXAxisLabel("Temps");
   myXYchart2.showYAxis(true);
-  myXYchart2.setYAxisLabel("Sin2(X)");
-  myXYchart2.setMaxY(1);
-  myXYchart2.setMinY(-1);
+  myXYchart2.setYAxisLabel("Température MPL115A2");
+  myXYchart2.setMaxY(30);
+  myXYchart2.setMinY(20);
 
 
   myXYchart3.setPointSize(0);
   myXYchart3.setLineWidth(2);
   myXYchart3.setLineColour(color(52, 152, 219));//blue
   myXYchart3.showXAxis(true);
-  myXYchart3.setXAxisLabel("X axis");
+  myXYchart3.setXAxisLabel("Temps");
   myXYchart3.showYAxis(true);
-  myXYchart3.setYAxisLabel("Sin2(X)");
-  myXYchart3.setMaxY(1);
-  myXYchart3.setMinY(-1);
+  myXYchart3.setYAxisLabel("Humidité en %");
+  myXYchart3.setMaxY(100);
+  myXYchart3.setMinY(0);
 
 
   myXYchart4.setPointSize(0);
   myXYchart4.setLineWidth(2);
   myXYchart4.setLineColour(color(244,208,63));//yellow
   myXYchart4.showXAxis(true);
-  myXYchart4.setXAxisLabel("X axis");
+  myXYchart4.setXAxisLabel("Temps");
   myXYchart4.showYAxis(true);
-  myXYchart4.setYAxisLabel("Sin2(X)");
-  myXYchart4.setMaxY(1);
-  myXYchart4.setMinY(-1);
+  myXYchart4.setYAxisLabel("Température DHT11");
+  myXYchart4.setMaxY(30);
+  myXYchart4.setMinY(20);
 
 
  
@@ -173,20 +178,19 @@ void draw() {
   myXYchart4.draw(10,(height/5)*4,width-20, (height/5));
 
   
-  if ( myPort.available() > 0) 
-  {  // If data is available,
-  val = myPort.readStringUntil('\n');         // read it and store it in val
-  } 
-  if(val !=null) println(val);
+  if ( myPort.available() > 0){
+  
+    val = myPort.readStringUntil('\n'); 
+  
+  if(val !=null) list = float(split(val, ':'));
+ 
 
-
-
-
-  buffer[0]=yData[cpt]; 
-  buffer1[0]=yData[cpt]; 
-  buffer2[0]=yData[cpt]; 
-  buffer3[0]=yData[cpt]; 
-  buffer4[0]=yData[cpt]; 
+if(list.length==5){
+  buffer[0]=list[0]; 
+  buffer1[0]=list[1]; 
+  buffer2[0]=list[2];
+  buffer3[0]=list[3];
+  buffer4[0]=list[4];}
 
 
   decalagebuffer(buffer);
@@ -203,11 +207,12 @@ void draw() {
   else cpt = 0;
     
   // Draw a title over the top of the chart.
+  /*
   fill(120);
   textSize(20);
   text("Example of a sinus plot using giCentre XYChart", 70,30);
   textSize(11);
-  text("Help files are in the Processing/libraries/gicentreUtils/reference folder", 70,45);
+  text("Help files are in the Processing/libraries/gicentreUtils/reference folder", 70,45);*/
+  }
 }
 
-*/
